@@ -6,13 +6,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class BasicScenarioExecutor implements ScenarioExecutor {
 
     private Logger log = LoggerFactory.getLogger(BasicScenarioExecutor.class);
 
+    private Supplier<Report> reportSupplier;
+
+    public BasicScenarioExecutor() {
+        this(BasicReport::new);
+    }
+
+    public BasicScenarioExecutor(Supplier<Report> reportSupplier) {
+        this.reportSupplier = reportSupplier;
+    }
+
     public Report execute(Scenario scenario) {
-        BasicReport report = new BasicReport();
+        Report report = reportSupplier.get();
 
         Set<Action> actions = scenario.generate();
         for(Action action : actions) {
