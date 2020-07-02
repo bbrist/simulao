@@ -1,5 +1,7 @@
-package io.simulao;
+package io.simulao.executor;
 
+import io.simulao.BasicScenario;
+import io.simulao.Report;
 import junit.framework.Assert;
 import org.junit.jupiter.api.Test;
 
