@@ -1,10 +1,15 @@
 package io.simulao.executor;
 
 import io.simulao.*;
+import io.simulao.report.BasicReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 public class BasicScenarioExecutor implements ScenarioExecutor {
+
+    private Logger log = LoggerFactory.getLogger(BasicScenarioExecutor.class);
 
     public Report execute(Scenario scenario) {
         BasicReport report = new BasicReport();
@@ -20,7 +25,10 @@ public class BasicScenarioExecutor implements ScenarioExecutor {
     protected void performAndRecord(Action action, Report report) {
         Reportable r = getReportable(action);
         try {
+            log.trace("Performing Action: {}", r.getName());
             perform(action);
+
+            log.trace("Reporting Action: {}", r.getName());
             report.record(r);
         } catch (Exception e) {
             report.record(r, e);

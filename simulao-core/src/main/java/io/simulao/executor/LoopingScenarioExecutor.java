@@ -3,12 +3,16 @@ package io.simulao.executor;
 import io.simulao.Report;
 import io.simulao.Scenario;
 import io.simulao.ScenarioExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public class LoopingScenarioExecutor implements ScenarioExecutor {
+
+    private Logger log = LoggerFactory.getLogger(LoopingScenarioExecutor.class);
 
     private Scenario scenario;
     private AtomicInteger counter;
@@ -26,16 +30,19 @@ public class LoopingScenarioExecutor implements ScenarioExecutor {
     }
 
     public void start() {
+        log.debug("Starting LoopingScenarioExecutor");
         this.running.set(true);
         thread = new Thread(this::execute);
         thread.start();
     }
 
     public void stop() {
+        log.debug("Stopping LoopingScenarioExecutor");
         this.running.set(false);
     }
 
     public void load(Scenario scenario) {
+        log.debug("Loading Scenario: {}", scenario);
         this.scenario = scenario;
     }
 
@@ -75,13 +82,17 @@ public class LoopingScenarioExecutor implements ScenarioExecutor {
     }
 
     public boolean executeOne() {
+        log.trace("Executing Single Iteration");
+
         // Verify Scenario is loaded
         if (scenario == null) {
+            log.warn("No Scenario is Loaded");
             return false;
         }
 
         // Verify iterations remain
         if (!iterationsRemain()) {
+            log.warn("No Iterations Remain");
             return false;
         }
 
@@ -105,6 +116,7 @@ public class LoopingScenarioExecutor implements ScenarioExecutor {
     }
 
     public void reset() {
+        log.debug("Resetting LoopingScenarioExecutor");
         this.scenario = null;
         this.counter = new AtomicInteger(-1);
     }

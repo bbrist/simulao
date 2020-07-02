@@ -1,4 +1,7 @@
-package io.simulao;
+package io.simulao.report;
+
+import io.simulao.Report;
+import io.simulao.Reportable;
 
 import java.util.ArrayList;
 import java.util.List;
