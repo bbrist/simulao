@@ -20,12 +20,7 @@ public class BasicReport implements Report {
 
     @Override
     public void record(Reportable reportable) {
-        addEntry(String.format("%s: Success", reportable.getName()));
-    }
-
-    @Override
-    public void record(Reportable reportable, Exception e) {
-        addEntry(String.format("%s: %s", reportable.getName(), e.getMessage()));
+        addEntry(String.format("%s: Performed", reportable.getName()));
     }
 
     @Override
