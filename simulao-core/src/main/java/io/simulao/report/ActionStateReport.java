@@ -34,14 +34,9 @@ public class ActionStateReport implements Report {
     }
 
     @Override
-    public void record(Reportable reportable, Exception e) {
-        record(reportable);
-    }
-
-    @Override
     public void writeTo(Writer writer) throws IOException {
         for(Entry entry : entries) {
-            writer.write(String.format("%s: %s", entry.reportable, entry.state.getDescription()));
+            writer.write(String.format("%s: %s", entry.reportable, entry.state.getMessage()));
             writer.write("\n");
         }
     }

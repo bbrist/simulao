@@ -7,7 +7,7 @@ public class ActionStateWrapper implements StatefulAction {
 
     private Action action;
 
-    private final ActionState state = new ActionState();
+    private final State state = new State();
 
     public ActionStateWrapper(Action action) {
         this.action = action;
@@ -35,6 +35,40 @@ public class ActionStateWrapper implements StatefulAction {
             return ((Reportable) action).getName();
         }
         return String.format("Unnamed %s", action.getClass().getName());
+    }
+
+    static class State implements ActionState {
+
+        private Exception exception = null;
+        private ActionStatus status = ActionStatus.PENDING;
+
+        public void start() {
+            this.status = ActionStatus.RUNNING;
+        }
+
+        public void complete() {
+            this.status = ActionStatus.COMPLETE;
+        }
+
+        public void failed(Exception e) {
+            this.exception = e;
+            this.status = ActionStatus.FAILED;
+        }
+
+        public ActionStatus getStatus() {
+            return status;
+        }
+
+        public String getMessage() {
+            String message = status.status();
+
+            if (status == ActionStatus.FAILED && exception != null) {
+                message = String.format("%s - %s", message, exception.getMessage());
+            }
+
+            return message;
+        }
+
     }
 
 }
