@@ -42,7 +42,7 @@ public class BasicScenarioExecutor implements ScenarioExecutor {
             log.trace("Reporting Action: {}", r.getName());
             report.record(r);
         } catch (Exception e) {
-            report.record(r, e);
+            log.error("Unable to perform action: {}", r.getName());
         }
     }
 
