@@ -1,4 +1,7 @@
-package io.simulao;
+package io.simulao.scenario;
+
+import io.simulao.Action;
+import io.simulao.Scenario;
 
 import java.util.HashSet;
 import java.util.Set;
